@@ -26,9 +26,12 @@ export default function Login() {
       setLoading(true);
       const response = await login(email.trim().toLowerCase(), password.trim());
 
-      navigation.reset({ routes: [{ name: "Access" }] });
+      navigation.reset({
+      index: 0,
+      routes: [{ name: "MainTabs" }],
+      });
     } catch (error: any) {
-      alert(error.response?.data?.mensagem || "Erro no login");
+      alert(error.message || "Erro no login");
     } finally {
       setLoading(false);
     }

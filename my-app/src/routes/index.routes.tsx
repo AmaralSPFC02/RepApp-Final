@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 export default function Routes() {
   return (
     <Stack.Navigator
-      initialRouteName="MainTabs"
+      initialRouteName="Login"
       screenOptions={{
         headerShown: false,
         cardStyle: {

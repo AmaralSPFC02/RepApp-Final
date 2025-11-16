@@ -1,16 +1,29 @@
 // src/services/authService.ts
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "./api";
 
 export async function login(email: string, senha: string) {
-  const response = await api.post("/auth/login", { email, senha });
-  const token = response.data?.token;
+  const fakeEmail = "teste@repapp.com";
+  const fakePassword = "123456";
 
-  if (token) {
-    await AsyncStorage.setItem("token", token);
-  }
+  return new Promise(async (resolve, reject) => {
+    setTimeout(async () => {
+      if (email === fakeEmail && senha === fakePassword) {
+        const fakeToken = "token_fake_123";
 
-  return response.data;
+        await AsyncStorage.setItem("token", fakeToken);
+
+        resolve({
+          token: fakeToken,
+          user: {
+            nome: "Usuário Teste",
+            email: fakeEmail,
+          },
+        });
+      } else {
+        reject({ message: "Email ou senha incorretos" });
+      }
+    }, 800); 
+  });
 }
 
 export async function logout() {
@@ -25,14 +38,12 @@ export async function register(
   universidade: string,
   anoIngresso: string
 ) {
-  const response = await api.post("/auth/register", {
-    nome,
-    email,
-    senha,
-    telefone,
-    universidade,
-    anoIngresso,
-  });
-
-  return response.data;
+  return {
+    success: true,
+    message: "Usuário registrado (mock)",
+    user: {
+      nome,
+      email,
+    },
+  };
 }

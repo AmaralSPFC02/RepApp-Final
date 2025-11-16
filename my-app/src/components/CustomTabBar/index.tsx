@@ -2,10 +2,13 @@ import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { style } from "./styles";
 import { themas } from "../../global/themes";
 
 export default ({ state, navigation }: BottomTabBarProps) => {
+  const insets = useSafeAreaInsets();
+
   const go = (screenName: string) => {
     navigation.navigate(screenName);
   };
@@ -69,9 +72,19 @@ export default ({ state, navigation }: BottomTabBarProps) => {
   ];
 
   return (
-    <View style={style.TabArea}>
+    <View
+      style={[
+        style.TabArea,
+        {
+          paddingBottom: insets.bottom + 10, 
+          paddingTop: 6,
+          height: 70 + insets.bottom, 
+        },
+      ]}
+    >
       {tabs.map((tab, index) => {
         const isFocused = state.index === index;
+
         return (
           <TouchableOpacity
             key={tab.name}
@@ -85,7 +98,9 @@ export default ({ state, navigation }: BottomTabBarProps) => {
                 style={[
                   style.TabItemLabel,
                   {
-                    color: isFocused ? themas.colors.primary : themas.colors.gray,
+                    color: isFocused
+                      ? themas.colors.primary
+                      : themas.colors.gray,
                   },
                 ]}
               >
@@ -98,3 +113,4 @@ export default ({ state, navigation }: BottomTabBarProps) => {
     </View>
   );
 };
+
